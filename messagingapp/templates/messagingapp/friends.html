@@ -1,0 +1,59 @@
+{% extends "base.html" %}
+{% block content %}
+
+<div class="container mt-4">
+
+    <div class="row">
+
+        <!-- USERS -->
+        <div class="col-md-4">
+            <div class="card shadow p-3">
+                <h5>➕ Users</h5>
+                {% for user in users %}
+                    <div class="d-flex justify-content-between align-items-center mb-2">
+                        <span>{{ user.username }}</span>
+                        <a href="{% url 'messagingapp:send_request' user.id %}" class="btn btn-sm btn-success">
+                            Add
+                        </a>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+
+        <!-- FRIEND REQUESTS -->
+        <div class="col-md-4">
+            <div class="card shadow p-3">
+                <h5>📥 Requests</h5>
+
+                {% for req in incoming_requests %}
+                    <div class="mb-2">
+                        {{ req.sender }}
+                        <a href="{% url 'messagingapp:accept_request' req.id %}" class="btn btn-sm btn-primary">✔</a>
+                        <a href="{% url 'messagingapp:reject_request' req.id %}" class="btn btn-sm btn-danger">✖</a>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+
+        <!-- FRIENDS -->
+        <div class="col-md-4">
+            <div class="card shadow p-3">
+                <h5>👥 Friends</h5>
+
+                {% for user in friends %}
+                    <div class="d-flex justify-content-between align-items-center mb-2">
+                        <span>{{ user.username }}</span>
+                        <a href="{% url 'messagingapp:remove_friend' user.id %}" class="btn btn-sm btn-outline-danger">
+                            Remove
+                        </a>
+                    </div>
+                {% endfor %}
+
+            </div>
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

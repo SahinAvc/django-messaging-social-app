@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+{% block content %}
+
+<div class="container mt-4">
+
+    <h4 class="text-center mb-4">Messages 💬</h4>
+
+    {% for msg in sent_messages %}
+        <div class="d-flex justify-content-end mb-2">
+            <div class="bg-primary text-white p-2 rounded" style="max-width: 60%;">
+                <small>You → {{ msg.receiver }}</small><br>
+                {{ msg.message }}
+                <br>
+                <small>{{ msg.created_at }}</small>
+
+                <form method="POST" action="{% url 'messagingapp:delete_message' msg.id %}" style="display:inline;">
+                    {% csrf_token %}
+                    <button class="btn btn-sm btn-light mt-1">Delete</button>
+                </form>
+
+            </div>
+        </div>
+    {% endfor %}
+
+    {% for msg in received_messages %}
+        <div class="d-flex justify-content-start mb-2">
+            <div class="bg-light border p-2 rounded" style="max-width: 60%;">
+                <small>{{ msg.sender }} → You</small><br>
+                {{ msg.message }}<br>
+                <small>{{ msg.created_at }}</small>
+            </div>
+        </div>
+    {% endfor %}
+
+</div>
+
+{% endblock %}

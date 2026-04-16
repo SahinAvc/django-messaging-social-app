@@ -1,0 +1,63 @@
+{%load static%}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
+    <title>Messaging App</title>
+    <link rel="stylesheet" href="{%static 'messagingapp/custom.css' %}">
+</head>
+<body>
+
+<ul class="nav nav-tabs">
+
+{% if user.is_authenticated %}
+
+  <li class="nav-item">
+    <a class="nav-link" href="{% url 'messagingapp:showmessage' %}">Messages</a>
+  </li>
+
+  <li class="nav-item">
+    <a class="nav-link" href="{% url 'messagingapp:addmessage' %}">Add Message</a>
+  </li>
+
+  <li class="nav-item">
+    <a class="nav-link" href="{% url 'messagingapp:friends' %}">Friends</a>
+  </li>
+
+  <li class="nav-item">
+    <form method="POST" action="{% url 'logout' %}">
+      {% csrf_token %}
+      <button type="submit" class="btn btn-link nav-link">Logout</button>
+    </form>
+  </li>
+
+{% else %}
+
+  <li class="nav-item">
+    <a class="nav-link" href="{% url 'login' %}">Login</a>
+  </li>
+
+  <li class="nav-item">
+    <a class="nav-link" href="{% url 'messagingapp:signup' %}">Sign up</a>
+  </li>
+
+{% endif %}
+
+</ul>
+
+    {% if messages %}
+    {% for message in messages %}
+        <div class="alert alert-success m-2">
+            {{ message }}
+        </div>
+    {% endfor %}
+    {% endif %}
+
+    {%block content%}
+        
+    {%endblock%}
+    
+</body>
+</html>
